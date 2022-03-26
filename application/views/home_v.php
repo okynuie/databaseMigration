@@ -35,34 +35,21 @@
 
     <div class="item-container">
       <select name="tables1" id="tables1">
+        <option value=''>Pilih</option>
       </select>
     </div>
     <div class="item-container">
       <select name="tables2" id="tables2" onchange="pilihAttr()">
+        <option value=''>Pilih</option>
       </select>
     </div>
 
     <div class="item-container">
       <div id="tb1">
-        <?php $i = 1;
-        $j = 1;
-        foreach ($statement as $key) : ?>
-          <select name="atribut<?= $i++; ?>" id="atribut<?= $j++; ?>" onchange="pilih()">
-            <option value="">Pilih</option>
-            <?php foreach ($statement as $key) : ?>
-              <option value="<?= $key['Field']; ?>"><?= $key['Field']; ?></option>
-            <?php endforeach; ?>
-          </select>
-          <br>
-        <?php endforeach; ?>
       </div>
     </div>
     <div class="item-container">
       <div id="tb2">
-        <?php foreach ($statement as $key) : ?>
-          <input type="text" name="<?= $key['Field']; ?>" id="<?= $key['Field']; ?>" value="<?= $key['Field']; ?>" disabled>
-          <br>
-        <?php endforeach; ?>
       </div>
     </div>
   </div>

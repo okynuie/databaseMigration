@@ -14,7 +14,7 @@ function pilihTabel() {
 		// console.log("tidak sama");
 		$.ajax({
 			type: "post",
-			url: baseUrl + "/home/getDB",
+			url: baseUrl + "/home/getTables",
 			data: {
 				dbs1: db1,
 				dbs2: db2,
@@ -47,33 +47,57 @@ function pilihTabel() {
 	}
 }
 
-function tambahPilihan(tb, id) {
+function pilihAttr() {
+	var db1 = $("#databases1").val();
+	var db2 = $("#databases2").val();
+	var tbs1 = $("#tables1").val();
+	var tbs2 = $("#tables2").val();
+
 	$.ajax({
 		type: "post",
-		url: baseUrl + "/home/getTable",
-		data: "data",
+		url: baseUrl + "/home/getAttr",
+		data: {
+			dbs1: db1,
+			dbs2: db2,
+			tb1: tbs1,
+			tb2: tbs2,
+		},
 		dataType: "json",
-		success: function (respon) {
-			var st = "";
-			var nd = "";
-			var rd = "";
-			st +=
-				"<br><select name='tabel2' id='tabel2'>" +
-				"<option value=''>Pilih</option>";
-			for (let i = 0; i < respon.length; i++) {
-				nd +=
-					"<option value='" +
-					respon[i].Field +
-					"'>" +
-					respon[i].Field +
-					"</option>";
+		success: function (hasil) {
+			var attr1 = "";
+			var attr2 = "";
+			var select1 = "<select name='' id='' onchange=''>";
+			var select2 = "</select><br>";
+			var option = "<option value=''>Pilih</option>";
+			var option1 = "";
+
+			for (let i = 0; i < hasil["attr2"].length; i++) {
+				attr2 +=
+					"<input type='text' name='" +
+					hasil["attr2"][i]["Field"] +
+					"' id='" +
+					hasil["attr2"][i]["Field"] +
+					"' value='" +
+					hasil["attr2"][i]["Field"] +
+					"' disabled>" +
+					"<br>";
 			}
-			rd += "</select>";
-			$(tb).append(st + nd + rd);
-			var number = id.substr(5, 6);
-			var hasil = parseInt(number);
-			var teks = id.substr(0, 5);
-			console.log(teks + (hasil += 1));
+			$("#tb2").html(attr2);
+
+			for (let k = 0; k < hasil["attr2"].length; k++) {
+				for (let j = 0; j < hasil["attr1"].length; j++) {
+					option1 +=
+						"<option value='" +
+						hasil["attr1"][j]["Field"] +
+						"'>" +
+						hasil["attr1"][j]["Field"] +
+						"</option>";
+				}
+
+				attr1 += select1 + option + option1 + select2;
+				$("#tb1").html(attr1);
+				option1 = "";
+			}
 		},
 	});
 }

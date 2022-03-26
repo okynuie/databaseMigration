@@ -10,16 +10,16 @@ class Migrate extends CI_Model
     // $this->db_two = $this->load->database('db2', TRUE);
   }
 
-  public function describeTable($DB, $table)
+  public function describeTable1($DB1, $table1)
   {
-    if ($DB == 1) {
-      $statement = $this->db->query('DESCRIBE ' . $table)->result_array();
-    } elseif ($DB == 2) {
-      // mengetahui struktur tabel
-      $statement = $this->db_two->query('DESCRIBE ' . $table)->result_array();
-    }
+    $this->db1 = $this->load->database($DB1, true);
+    return $this->db1->query('DESCRIBE ' . $table1)->result_array();
+  }
 
-    return $statement;
+  public function describeTable2($DB2, $table2)
+  {
+    $this->db2 = $this->load->database($DB2, true);
+    return $this->db2->query('DESCRIBE ' . $table2)->result_array();
   }
 }
   

@@ -22,8 +22,6 @@ class Home extends CI_Controller
     };
 
     $data['dbs'] = $databases;
-    $data['statement'] = $this->Migrate->describeTable('1', 'mahasiswa');
-    $data['mhs'] = $this->db->get('mahasiswa')->result_array();
 
     $data['tabel'] = $this->db->query('SHOW TABLES')->result_array();
 
@@ -33,7 +31,7 @@ class Home extends CI_Controller
     $this->load->view('home_v', $data);
   }
 
-  public function getDB()
+  public function getTables()
   {
     // $dbname = $_POST['db1'];
     // $db = new PDO("mysql:host=localhost;dbname=$dbname", "root", "");
@@ -59,33 +57,40 @@ class Home extends CI_Controller
     echo json_encode($data);
   }
 
-  public function getTable()
+  public function getAttr()
   {
-    $statement = $this->Migrate->describeTable('1', 'mahasiswa');
+    $database1 = $_POST['dbs1'];
+    $database2 = $_POST['dbs2'];
+    $table1 = $_POST['tb1'];
+    $table2 = $_POST['tb2'];
 
-    echo json_encode($statement);
+
+    $hasilAttr['attr1'] = $this->Migrate->describeTable1($database1, $table1);
+    $hasilAttr['attr2'] = $this->Migrate->describeTable2($database2, $table2);
+
+    echo json_encode($hasilAttr);
   }
 
-  public function importDB()
-  {
-    $statement = $this->Migrate->describeTable(2, 'aktivis');
-    foreach ($statement as $value) {
-      $attr[] = $value['Field'];
-    }
+  // public function importDB()
+  // {
+  //   $statement = $this->Migrate->describeTable(2, 'aktivis');
+  //   foreach ($statement as $value) {
+  //     $attr[] = $value['Field'];
+  //   }
 
-    print_r($attr);
+  //   print_r($attr);
 
-    // mengambil data dari tabel
-    $result = $this->db->get('mahasiswa')->result_array();
-    foreach ($result as $key) {
-      $hasil[] = [
-        'id' => $key['id_mhs'],
-        'nama' => $key['nama_mhs'],
-        'jns_kelamin' => $key['jns_kelamin'],
-        'tgl_lahir' => $key['tgl_lahir']
-      ];
-    }
-  }
+  //   // mengambil data dari tabel
+  //   $result = $this->db->get('mahasiswa')->result_array();
+  //   foreach ($result as $key) {
+  //     $hasil[] = [
+  //       'id' => $key['id_mhs'],
+  //       'nama' => $key['nama_mhs'],
+  //       'jns_kelamin' => $key['jns_kelamin'],
+  //       'tgl_lahir' => $key['tgl_lahir']
+  //     ];
+  //   }
+  // }
 }
   
   /* End of file Home.php */
