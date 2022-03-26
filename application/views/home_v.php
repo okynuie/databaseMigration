@@ -18,31 +18,27 @@
   <div class="container">
     <div class="item-container">
       <select name="databases1" id="databases1">
+        <option value="">Pilih</option>
         <?php foreach ($dbs as $db) : ?>
-          <option value=""><?= $db; ?></option>
+          <option value="<?= $db; ?>"><?= $db; ?></option>
         <?php endforeach; ?>
       </select>
     </div>
     <div class="item-container">
-      <select name="databases2" id="databases2">
+      <select name="databases2" id="databases2" onchange="pilihTabel()">
+        <option value="">Pilih</option>
         <?php foreach ($dbs as $db) : ?>
-          <option value=""><?= $db; ?></option>
+          <option value="<?= $db; ?>"><?= $db; ?></option>
         <?php endforeach; ?>
       </select>
     </div>
 
     <div class="item-container">
       <select name="tables1" id="tables1">
-        <?php foreach ($dbs as $db) : ?>
-          <option value=""><?= $db; ?></option>
-        <?php endforeach; ?>
       </select>
     </div>
     <div class="item-container">
-      <select name="tables2" id="tables2">
-        <?php foreach ($dbs as $db) : ?>
-          <option value=""><?= $db; ?></option>
-        <?php endforeach; ?>
+      <select name="tables2" id="tables2" onchange="pilihAttr()">
       </select>
     </div>
 

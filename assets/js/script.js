@@ -2,14 +2,48 @@ var getUrl = window.location;
 var baseUrl =
 	getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split("/")[1];
 
-function pilih() {
-	var tabel1 = $("#tabel1").val();
-	var tabel2 = $("#tabel2").val();
+function pilihTabel() {
+	var db1 = $("#databases1").val();
+	var db2 = $("#databases2").val();
+	var tabe_in1 = "Tables_in_" + db1;
+	var tabe_in2 = "Tables_in_" + db2;
 
-	if (tabel1 == tabel2) {
+	if (db1 == db2) {
 		console.log("sama");
-	} else {
-		console.log("tidak sama");
+	} else if (db1 != db2) {
+		// console.log("tidak sama");
+		$.ajax({
+			type: "post",
+			url: baseUrl + "/home/getDB",
+			data: {
+				dbs1: db1,
+				dbs2: db2,
+			},
+			dataType: "json",
+			success: function (data) {
+				opt = "<option value=''>Pilih</option>";
+				opt1 = "";
+				opt2 = "";
+				for (let i = 0; i < data["hasilDB1"].length; i++) {
+					opt1 +=
+						"<option value='" +
+						data["hasilDB1"][i][tabe_in1] +
+						"'>" +
+						data["hasilDB1"][i][tabe_in1] +
+						"</option>";
+				}
+				for (let j = 0; j < data["hasilDB2"].length; j++) {
+					opt2 +=
+						"<option value='" +
+						data["hasilDB2"][j][tabe_in2] +
+						"'>" +
+						data["hasilDB2"][j][tabe_in2] +
+						"</option>";
+				}
+				$("#tables1").html(opt + opt1);
+				$("#tables2").html(opt + opt2);
+			},
+		});
 	}
 }
 
