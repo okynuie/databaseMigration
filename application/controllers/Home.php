@@ -8,17 +8,24 @@ class Home extends CI_Controller
   public function __construct()
   {
     parent::__construct();
-    $this->db_two = $this->load->database('db2', TRUE);
     $this->load->model('Migrate');
   }
 
 
   public function index()
   {
+    $db = new PDO('mysql:host=localhost;dbname=mysql', 'root', '');
+    $dbs = $db->query('SHOW DATABASES');
+
+    while (($db = $dbs->fetchColumn(0)) !== false) {
+      $databases[] = $db;
+    };
+
+    $data['dbs'] = $databases;
     $data['statement'] = $this->Migrate->describeTable('1', 'mahasiswa');
     $data['mhs'] = $this->db->get('mahasiswa')->result_array();
 
-    $data['tabel'] = $this->db->query('SHOW TABLES');
+    $data['tabel'] = $this->db->query('SHOW TABLES')->result_array();
 
 
     // $hasil = $this->db_two->insert_batch('aktivis', $data);

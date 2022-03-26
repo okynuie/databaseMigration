@@ -7,7 +7,7 @@ class Migrate extends CI_Model
   public function __construct()
   {
     parent::__construct();
-    $this->db_two = $this->load->database('db2', TRUE);
+    // $this->db_two = $this->load->database('db2', TRUE);
   }
 
   public function describeTable($DB, $table)

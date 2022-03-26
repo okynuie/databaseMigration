@@ -10,19 +10,42 @@
 </head>
 
 <body>
+  <?php
+  print_r($dbs);
+  ?>
   <h1>It's Work</h1>
   <?= form_open('home/importDB'); ?>
   <div class="container">
     <div class="item-container">
-      <select name="tbl" id="tbl">
-        <option value="">1</option>
+      <select name="databases1" id="databases1">
+        <?php foreach ($dbs as $db) : ?>
+          <option value=""><?= $db; ?></option>
+        <?php endforeach; ?>
       </select>
     </div>
     <div class="item-container">
-      <select name="tbl" id="tbl">
-        <option value="">1</option>
+      <select name="databases2" id="databases2">
+        <?php foreach ($dbs as $db) : ?>
+          <option value=""><?= $db; ?></option>
+        <?php endforeach; ?>
       </select>
     </div>
+
+    <div class="item-container">
+      <select name="tables1" id="tables1">
+        <?php foreach ($dbs as $db) : ?>
+          <option value=""><?= $db; ?></option>
+        <?php endforeach; ?>
+      </select>
+    </div>
+    <div class="item-container">
+      <select name="tables2" id="tables2">
+        <?php foreach ($dbs as $db) : ?>
+          <option value=""><?= $db; ?></option>
+        <?php endforeach; ?>
+      </select>
+    </div>
+
     <div class="item-container">
       <div id="tb1">
         <?php $i = 1;
@@ -41,7 +64,7 @@
     <div class="item-container">
       <div id="tb2">
         <?php foreach ($statement as $key) : ?>
-          <input type="text" name="<?= $key['Field']; ?>" id="<?= $key['Field']; ?>" value="<?= $key['Field']; ?>">
+          <input type="text" name="<?= $key['Field']; ?>" id="<?= $key['Field']; ?>" value="<?= $key['Field']; ?>" disabled>
           <br>
         <?php endforeach; ?>
       </div>
