@@ -66,20 +66,23 @@ function pilihAttr() {
 		success: function (hasil) {
 			var attr1 = "";
 			var attr2 = "";
-			var select1 = "<select name='' id='' onchange=''>";
+			var id1 = 1;
+			var id2 = 1;
+			var idBaru1 = 1;
+			var idBaru2 = 1;
 			var select2 = "</select><br>";
-			var option = "<option value=''>Pilih</option>";
+			var option = "<option value='0'>Pilih</option>";
 			var option1 = "";
 
 			for (let i = 0; i < hasil["attr2"].length; i++) {
 				attr2 +=
-					"<input type='text' name='" +
-					hasil["attr2"][i]["Field"] +
-					"' id='" +
-					hasil["attr2"][i]["Field"] +
+					"<input type='text' name='attrBaru" +
+					idBaru1++ +
+					"' id='attrBaru" +
+					idBaru2++ +
 					"' value='" +
 					hasil["attr2"][i]["Field"] +
-					"' disabled>" +
+					"'readonly>" +
 					"<br>";
 			}
 			$("#tb2").html(attr2);
@@ -94,10 +97,47 @@ function pilihAttr() {
 						"</option>";
 				}
 
-				attr1 += select1 + option + option1 + select2;
+				attr1 +=
+					"<select style='padding: 1px;' name='attr" +
+					id1++ +
+					"' id='attr" +
+					id2++ +
+					"' onchange=''>" +
+					option +
+					option1 +
+					select2;
 				$("#tb1").html(attr1);
 				option1 = "";
 			}
 		},
+	});
+}
+
+function importDB() {
+	var hitung = $("div#tb2 input").length;
+	console.log(hitung);
+	$("#count").html(
+		"<input type='text' name='count1' id='count1' value='" + hitung + "'>"
+	);
+	// $("#migrasi").show();
+}
+
+function migrasi() {
+	var db1 = $("#databases1").val();
+	var db2 = $("#databases2").val();
+	var tbs1 = $("#tables1").val();
+	var tbs2 = $("#tables2").val();
+
+	$.ajax({
+		type: "post",
+		url: baseUrl + "/home/getAttr",
+		data: {
+			dbs1: db1,
+			dbs2: db2,
+			tb1: tbs1,
+			tb2: tbs2,
+		},
+		dataType: "json",
+		success: function (response) {},
 	});
 }

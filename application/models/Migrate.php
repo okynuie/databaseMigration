@@ -21,6 +21,12 @@ class Migrate extends CI_Model
     $this->db2 = $this->load->database($DB2, true);
     return $this->db2->query('DESCRIBE ' . $table2)->result_array();
   }
+
+  public function import($db, $tb, $data)
+  {
+    $this->db2 = $this->load->database($db, true);
+    return $this->db2->insert_batch($tb, $data);
+  }
 }
   
   /* End of file Migration.php */
