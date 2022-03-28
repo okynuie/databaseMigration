@@ -4,12 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Migrate extends CI_Model
 {
-  public function __construct()
-  {
-    parent::__construct();
-    // $this->db_two = $this->load->database('db2', TRUE);
-  }
-
   public function loadDB1($db1, $tb1, $field1)
   {
     // load database secara manual
