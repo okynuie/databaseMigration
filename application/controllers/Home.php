@@ -57,13 +57,15 @@ class Home extends CI_Controller
 
   public function importDB()
   {
+    $post = $this->input->post();
+
     // database dari element select
-    $db1 = $this->input->post('databases1', true);
-    $db2 = $this->input->post('databases2', true);
+    $db1 = $post['databases1'];
+    $db2 = $post['databases2'];
 
     // tabel dari element select
-    $tb1 = $this->input->post('tables1', true);
-    $tb2 = $this->input->post('tables2', true);
+    $tb1 = $post['tables1'];
+    $tb2 = $post['tables2'];
 
     // mengambil atribut tabel lama dari element select yang sudah dipilih
     $count = $this->input->post('count1');
@@ -76,13 +78,8 @@ class Home extends CI_Controller
       $field2[] = $this->input->post('attrBaru' . $y, true);
     }
 
-    // load database secara manual
-    $this->db1 = $this->load->database($db1, true);
-    $this->db2 = $this->load->database($db2, true);
-
     // mengambil data(value) atribut dari database lama
-    $this->db1->select($field1);
-    $dataAttr = $this->db1->get($tb1)->result_array();
+    $dataAttr = $this->Migrate->loadDB1($db1, $tb1, $field1);
 
     // menyocokan atribut database lama dengan atribut yang telah dipilih melalui element select
     foreach ($field1 as $f1) {
@@ -94,6 +91,7 @@ class Home extends CI_Controller
     }
 
     // memasukkan atribut lama kedalam atribut baru dalam bentuk array dua dimensi
+    // array tampung
     $c = array();
     for ($i = 0; $i <= count($data1); $i++) {
       for ($j = 0; $j < $count; $j++) {
@@ -104,7 +102,7 @@ class Home extends CI_Controller
     }
 
     // menyimpan kedalam database baru
-    $this->db2->insert_batch($tb2, $hasilAttr);
+    $this->Migrate->import($db2, $tb2, $hasilAttr);
 
     // kembali ke home
     redirect('home');

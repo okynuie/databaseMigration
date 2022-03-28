@@ -10,6 +10,15 @@ class Migrate extends CI_Model
     // $this->db_two = $this->load->database('db2', TRUE);
   }
 
+  public function loadDB1($db1, $tb1, $field1)
+  {
+    // load database secara manual
+    $this->db1 = $this->load->database($db1, true);
+    // mengambil data(value) atribut dari database lama
+    $this->db1->select($field1);
+    return $this->db1->get($tb1)->result_array();
+  }
+
   public function describeTable1($DB1, $table1)
   {
     $this->db1 = $this->load->database($DB1, true);
