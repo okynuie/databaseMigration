@@ -14,15 +14,7 @@ class Home extends CI_Controller
 
   public function index()
   {
-    // koneksi manual untuk mengambil list database
-    $db = new PDO('mysql:host=localhost;dbname=mysql', 'root', '');
-    $dbs = $db->query('SHOW DATABASES');
-
-    while (($db = $dbs->fetchColumn(0)) !== false) {
-      $databases[] = $db;
-    };
-
-    $data['dbs'] = $databases;
+    $data['dbs'] = $this->Migrate->conn();
 
     $this->load->view('home_v', $data);
   }
@@ -90,10 +82,12 @@ class Home extends CI_Controller
       $newData1 = array();
     }
 
+    // jumlah data yang akan diimport
+    $row = count($data1[0]);
     // memasukkan atribut lama kedalam atribut baru dalam bentuk array dua dimensi
     // array tampung
     $c = array();
-    for ($i = 0; $i <= count($data1); $i++) {
+    for ($i = 0; $i < $row; $i++) {
       for ($j = 0; $j < $count; $j++) {
         $c[$field2[$j]] = $data1[$j][$i];
       }

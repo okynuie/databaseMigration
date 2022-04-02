@@ -4,6 +4,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Migrate extends CI_Model
 {
+
+  public function conn()
+  {
+    // koneksi manual untuk mengambil list database
+    $db = new PDO('mysql:host=localhost;dbname=mysql', 'root', '');
+    $dbs = $db->query('SHOW DATABASES');
+
+    while (($db = $dbs->fetchColumn(0)) !== false) {
+      $databases[] = $db;
+    };
+    return $databases;
+  }
+
   public function loadDB1($db1, $tb1, $field1)
   {
     // load database secara manual
