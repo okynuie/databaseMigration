@@ -49,57 +49,20 @@ class Home extends CI_Controller
 
   public function importDB()
   {
-    $post = $this->input->post();
-
-    // database dari element select
-    $db1 = $post['databases1'];
-    $db2 = $post['databases2'];
-
-    // tabel dari element select
-    $tb1 = $post['tables1'];
-    $tb2 = $post['tables2'];
-
-    // mengambil atribut tabel lama dari element select yang sudah dipilih
-    $count = $this->input->post('count1');
-    for ($x = 1; $x <= $count; $x++) {
-      $field1[] = $this->input->post('attr' . $x, true);
-    }
-
-    // mengambil atribut tabel baru
-    for ($y = 1; $y <= $count; $y++) {
-      $field2[] = $this->input->post('attrBaru' . $y, true);
-    }
-
-    // mengambil data(value) atribut dari database lama
-    $dataAttr = $this->Migrate->loadDB1($db1, $tb1, $field1);
-
-    // menyocokan atribut database lama dengan atribut yang telah dipilih melalui element select
-    foreach ($field1 as $f1) {
-      foreach ($dataAttr as $key) {
-        $newData1[] = $key[$f1];
-      }
-      $data1[] =  $newData1;
-      $newData1 = array();
-    }
-
-    // jumlah data yang akan diimport
-    $row = count($data1[0]);
-    // memasukkan atribut lama kedalam atribut baru dalam bentuk array dua dimensi
-    // array tampung
-    $c = array();
-    for ($i = 0; $i < $row; $i++) {
-      for ($j = 0; $j < $count; $j++) {
-        $c[$field2[$j]] = $data1[$j][$i];
-      }
-      $hasilAttr[] = $c;
-      $c = array();
-    }
-
     // menyimpan kedalam database baru
-    $this->Migrate->import($db2, $tb2, $hasilAttr);
+    $this->Migrate->import();
 
     // kembali ke home
     redirect('home');
+  }
+
+  public function tes()
+  {
+    $data = $this->Migrate->describeTable1('coba1', 'mahasiswa');
+    foreach ($data as $key) {
+      echo $key['Field'] . ' ~ ' . $key['Type'];
+      echo '<br>';
+    }
   }
 }
   

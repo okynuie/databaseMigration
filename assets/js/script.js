@@ -115,29 +115,10 @@ function pilihAttr() {
 
 function importDB() {
 	var hitung = $("div#tb2 input").length;
-	console.log(hitung);
 	$("#count").html(
 		"<input type='text' name='count1' id='count1' value='" + hitung + "'>"
 	);
 	// $("#migrasi").show();
-}
 
-function migrasi() {
-	var db1 = $("#databases1").val();
-	var db2 = $("#databases2").val();
-	var tbs1 = $("#tables1").val();
-	var tbs2 = $("#tables2").val();
-
-	$.ajax({
-		type: "post",
-		url: baseUrl + "/home/getAttr",
-		data: {
-			dbs1: db1,
-			dbs2: db2,
-			tb1: tbs1,
-			tb2: tbs2,
-		},
-		dataType: "json",
-		success: function (response) {},
-	});
+	$("#thisForm").submit();
 }

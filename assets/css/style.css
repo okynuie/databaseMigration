@@ -1,3 +1,9 @@
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .container {
 	display: grid;
 	grid-template-columns: 400px 400px;
@@ -7,4 +13,29 @@
 	background-color: rgba(255, 255, 255, 0.8);
 	border: 1px solid rgba(0, 0, 0, 0.8);
 	text-align: center;
+}
+
+#databases1,
+#databases2,
+#tables1,
+#tables2 {
+	margin-bottom: 1em;
+}
+
+#tb1 select {
+	margin-bottom: 1em;
+}
+
+#tb2 input {
+	margin-bottom: 1em;
+}
+
+.btnImport {
+	background-color: salmon;
+	font-size: medium;
+	font-weight: 600;
+	width: 100%;
+	height: 30px;
+	margin-top: 2em;
+	border-radius: 10px;
 }
