@@ -37,10 +37,12 @@
         </div>
 
         <div class="item-container">
-          <h2>Table lama</h2>
-          <select name="tables1" id="tables1">
-            <option value=''>Pilih</option>
-          </select>
+          <h2>Table lama <button type="button" onclick="">?</button></h2>
+          <div id="atribut">
+            <select name="tables1" id="tables1">
+              <option value=''>Pilih</option>
+            </select>
+          </div>
         </div>
         <div class="item-container">
           <h2>Table baru</h2>
@@ -51,7 +53,12 @@
 
         <div class="item-container">
           <h2>Attribute lama</h2>
-          <div id="tb1">
+          <div class="table-lama">
+            <div id="tb1">
+            </div>
+            <div id="tipe-data">
+
+            </div>
           </div>
         </div>
         <div class="item-container">
@@ -66,7 +73,6 @@
       <input type="button" onclick="importDB()" value="Import" class="btnImport">
     </form>
   </div>
-
 
   <script src="<?= base_url('assets/js/jquery-3.6.0.min.js'); ?>"></script>
   <script src="<?= base_url('assets/js/script.js'); ?>"></script>

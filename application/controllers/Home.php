@@ -47,6 +47,22 @@ class Home extends CI_Controller
     echo json_encode($hasilAttr);
   }
 
+  public function getTypeData()
+  {
+    $table1 = $_POST['tb1'];
+    $database1 = $_POST['dbs1'];
+
+    $hasilAttr = $this->Migrate->describeTable1($database1, $table1);
+    echo json_encode($hasilAttr);
+  }
+
+  public function getDataTable()
+  {
+    $data = 'ok';
+
+    echo json_encode($data);
+  }
+
   public function importDB()
   {
     // menyimpan kedalam database baru

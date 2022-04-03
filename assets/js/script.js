@@ -8,10 +8,7 @@ function pilihTabel() {
 	var tabe_in1 = "Tables_in_" + db1;
 	var tabe_in2 = "Tables_in_" + db2;
 
-	if (db1 == db2) {
-		console.log("sama");
-	} else if (db1 != db2) {
-		// console.log("tidak sama");
+	if (db1 != db2) {
 		$.ajax({
 			type: "post",
 			url: baseUrl + "/home/getTables",
@@ -21,9 +18,9 @@ function pilihTabel() {
 			},
 			dataType: "json",
 			success: function (data) {
-				opt = "<option value=''>Pilih</option>";
-				opt1 = "";
-				opt2 = "";
+				var opt = "<option value=''>Pilih</option>";
+				var opt1 = "";
+				var opt2 = "";
 				for (let i = 0; i < data["hasilDB1"].length; i++) {
 					opt1 +=
 						"<option value='" +
@@ -66,10 +63,9 @@ function pilihAttr() {
 		success: function (hasil) {
 			var attr1 = "";
 			var attr2 = "";
-			var id1 = 1;
-			var id2 = 1;
-			var idBaru1 = 1;
-			var idBaru2 = 1;
+			var typeData = "";
+			var id = 1;
+			var idBaru = 1;
 			var select2 = "</select><br>";
 			var option = "<option value='0'>Pilih</option>";
 			var option1 = "";
@@ -77,13 +73,14 @@ function pilihAttr() {
 			for (let i = 0; i < hasil["attr2"].length; i++) {
 				attr2 +=
 					"<input type='text' name='attrBaru" +
-					idBaru1++ +
+					idBaru +
 					"' id='attrBaru" +
-					idBaru2++ +
+					idBaru +
 					"' value='" +
 					hasil["attr2"][i]["Field"] +
 					"'readonly>" +
 					"<br>";
+				idBaru++;
 			}
 			$("#tb2").html(attr2);
 
@@ -99,16 +96,50 @@ function pilihAttr() {
 
 				attr1 +=
 					"<select style='padding: 1px;' name='attr" +
-					id1++ +
+					id +
 					"' id='attr" +
-					id2++ +
-					"' onchange=''>" +
+					id +
+					"' onChange='cekAttr(this.value, this.id)'>" +
 					option +
 					option1 +
 					select2;
+
+				typeData +=
+					"<input type='text' name='" +
+					id1 +
+					"' id='" +
+					id1 +
+					"' value='' readonly>";
 				$("#tb1").html(attr1);
+				$("#tipe-data").html(typeData);
 				option1 = "";
+				id++;
 			}
+		},
+	});
+}
+
+function cekAttr(value, id) {
+	var idBaru = id.slice(4, 5);
+	var db1 = $("#databases1").val();
+	var tbs1 = $("#tables1").val();
+
+	$.ajax({
+		type: "post",
+		url: baseUrl + "/Home/getTypeData",
+		data: {
+			dbs1: db1,
+			tb1: tbs1,
+		},
+		dataType: "json",
+		success: function (response) {
+			var typeData = "";
+			for (let i = 0; i < response.length; i++) {
+				if (response[i]["Field"] == value) {
+					typeData = response[i]["Type"];
+				}
+			}
+			$("#" + idBaru).val(typeData);
 		},
 	});
 }
@@ -118,7 +149,6 @@ function importDB() {
 	$("#count").html(
 		"<input type='text' name='count1' id='count1' value='" + hitung + "'>"
 	);
-	// $("#migrasi").show();
 
 	$("#thisForm").submit();
 }
