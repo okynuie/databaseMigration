@@ -20,7 +20,7 @@
         <div class="item-container">
           <h2>Database lama</h2>
           <select name="databases1" id="databases1">
-            <option value="">Pilih</option>
+            <option value="0">Pilih</option>
             <?php foreach ($dbs as $db) : ?>
               <option value="<?= $db; ?>"><?= $db; ?></option>
             <?php endforeach; ?>
@@ -29,7 +29,7 @@
         <div class="item-container">
           <h2>Database baru</h2>
           <select name="databases2" id="databases2" onchange="pilihTabel()">
-            <option value="">Pilih</option>
+            <option value="0">Pilih</option>
             <?php foreach ($dbs as $db) : ?>
               <option value="<?= $db; ?>"><?= $db; ?></option>
             <?php endforeach; ?>
@@ -37,23 +37,26 @@
         </div>
 
         <div class="item-container">
-          <h2>Table lama <button type="button" onclick="">?</button></h2>
+          <h2>Table lama</h2>
           <div id="atribut">
             <select name="tables1" id="tables1">
-              <option value=''>Pilih</option>
+              <option value='0'>Pilih</option>
             </select>
+            <span>
+              <button type="button" id="modalBtn">?</button>
+            </span>
           </div>
         </div>
         <div class="item-container">
           <h2>Table baru</h2>
           <select name="tables2" id="tables2" onchange="pilihAttr()">
-            <option value=''>Pilih</option>
+            <option value='0'>Pilih</option>
           </select>
         </div>
 
         <div class="item-container">
           <h2>Attribute lama</h2>
-          <div class="table-lama">
+          <div id="table-lama">
             <div id="tb1">
             </div>
             <div id="tipe-data">
@@ -73,6 +76,29 @@
       <input type="button" onclick="importDB()" value="Import" class="btnImport">
     </form>
   </div>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="dataTable">
+        <table>
+          <thead id="thead">
+            <th></th>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
 
   <script src="<?= base_url('assets/js/jquery-3.6.0.min.js'); ?>"></script>
   <script src="<?= base_url('assets/js/script.js'); ?>"></script>

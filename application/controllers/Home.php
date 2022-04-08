@@ -41,8 +41,8 @@ class Home extends CI_Controller
     $table2 = $_POST['tb2'];
 
 
-    $hasilAttr['attr1'] = $this->Migrate->describeTable1($database1, $table1);
-    $hasilAttr['attr2'] = $this->Migrate->describeTable2($database2, $table2);
+    $hasilAttr['attr1'] = $this->Migrate->describeTable($database1, $table1);
+    $hasilAttr['attr2'] = $this->Migrate->describeTable($database2, $table2);
 
     echo json_encode($hasilAttr);
   }
@@ -52,7 +52,7 @@ class Home extends CI_Controller
     $table1 = $_POST['tb1'];
     $database1 = $_POST['dbs1'];
 
-    $hasilAttr = $this->Migrate->describeTable1($database1, $table1);
+    $hasilAttr = $this->Migrate->describeTable($database1, $table1);
     echo json_encode($hasilAttr);
   }
 
@@ -70,15 +70,6 @@ class Home extends CI_Controller
 
     // kembali ke home
     redirect('home');
-  }
-
-  public function tes()
-  {
-    $data = $this->Migrate->describeTable1('coba1', 'mahasiswa');
-    foreach ($data as $key) {
-      echo $key['Field'] . ' ~ ' . $key['Type'];
-      echo '<br>';
-    }
   }
 }
   

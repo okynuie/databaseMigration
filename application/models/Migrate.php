@@ -26,16 +26,10 @@ class Migrate extends CI_Model
     return $this->db1->get($tb1)->result_array();
   }
 
-  public function describeTable1($DB1, $table1)
+  public function describeTable($DB, $table)
   {
-    $this->db1 = $this->load->database($DB1, true);
-    return $this->db1->query('DESCRIBE ' . $table1)->result_array();
-  }
-
-  public function describeTable2($DB2, $table2)
-  {
-    $this->db2 = $this->load->database($DB2, true);
-    return $this->db2->query('DESCRIBE ' . $table2)->result_array();
+    $this->db1 = $this->load->database($DB, true);
+    return $this->db1->query('DESCRIBE ' . $table)->result_array();
   }
 
   public function import()
@@ -49,7 +43,6 @@ class Migrate extends CI_Model
     // tabel dari element select
     $tb1 = $post['tables1'];
     $tb2 = $post['tables2'];
-
 
     // mengambil atribut tabel lama dari element select yang sudah dipilih
     $count = $this->input->post('count1');

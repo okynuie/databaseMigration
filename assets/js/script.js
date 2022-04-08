@@ -18,7 +18,7 @@ function pilihTabel() {
 			},
 			dataType: "json",
 			success: function (data) {
-				var opt = "<option value=''>Pilih</option>";
+				var opt = "<option value='0'>Pilih</option>";
 				var opt1 = "";
 				var opt2 = "";
 				for (let i = 0; i < data["hasilDB1"].length; i++) {
@@ -63,7 +63,7 @@ function pilihAttr() {
 		success: function (hasil) {
 			var attr1 = "";
 			var attr2 = "";
-			var typeData = "";
+			var typeData1 = "";
 			var id = 1;
 			var idBaru = 1;
 			var select2 = "</select><br>";
@@ -78,7 +78,7 @@ function pilihAttr() {
 					idBaru +
 					"' value='" +
 					hasil["attr2"][i]["Field"] +
-					"'readonly>" +
+					"' readonly>" +
 					"<br>";
 				idBaru++;
 			}
@@ -104,14 +104,14 @@ function pilihAttr() {
 					option1 +
 					select2;
 
-				typeData +=
+				typeData1 +=
 					"<input type='text' name='" +
-					id1 +
+					id +
 					"' id='" +
-					id1 +
+					id +
 					"' value='' readonly>";
 				$("#tb1").html(attr1);
-				$("#tipe-data").html(typeData);
+				$("#tipe-data").html(typeData1);
 				option1 = "";
 				id++;
 			}
@@ -145,10 +145,55 @@ function cekAttr(value, id) {
 }
 
 function importDB() {
-	var hitung = $("div#tb2 input").length;
-	$("#count").html(
-		"<input type='text' name='count1' id='count1' value='" + hitung + "'>"
-	);
+	var db1 = $("#databases1").val();
+	var db2 = $("#databases2").val();
+	var tbs1 = $("#tables1").val();
+	var tbs2 = $("#tables2").val();
+	if (db1 == 0 && db2 == 0) {
+		alert("Data harus diisi");
+	} else if (tbs1 == 0 && tbs2 == 0) {
+		alert("Data harus diisi");
+	} else {
+		var hitung = $("div#tb2 input").length;
+		$("#count").html(
+			"<input type='text' name='count1' id='count1' value='" + hitung + "'>"
+		);
 
-	$("#thisForm").submit();
+		$("#thisForm").submit();
+	}
 }
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("modalBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function () {
+	modal.style.display = "block";
+	$.ajax({
+		type: "post",
+		url: baseUrl + "/home/getDataTable",
+		// data: "data",
+		dataType: "json",
+		success: function (response) {
+			console.log(response);
+		},
+	});
+};
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+	modal.style.display = "none";
+};
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+	}
+};
