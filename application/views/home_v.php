@@ -43,7 +43,7 @@
               <option value='0'>Pilih</option>
             </select>
             <span>
-              <button type="button" id="modalBtn">?</button>
+              <button type="button" onclick="showData()">?</button>
             </span>
           </div>
         </div>

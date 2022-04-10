@@ -58,7 +58,10 @@ class Home extends CI_Controller
 
   public function getDataTable()
   {
-    $data = 'ok';
+    $table1 = $_POST['tbs1'];
+    $database1 = $_POST['db1'];
+    $data = $this->Migrate->read($database1, $table1);
+    // $data = 'ok';
 
     echo json_encode($data);
   }
@@ -70,6 +73,13 @@ class Home extends CI_Controller
 
     // kembali ke home
     redirect('home');
+  }
+
+  public function tes()
+  {
+    $a = 1;
+    $b = '1';
+    echo str_pad($a, 6, 0);
   }
 }
   

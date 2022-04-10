@@ -23,6 +23,7 @@ class Migrate extends CI_Model
     $this->db1 = $this->load->database($db1, true);
     // mengambil data(value) atribut dari database lama
     $this->db1->select($field1);
+    $this->db1->distinct($field1[0]);
     return $this->db1->get($tb1)->result_array();
   }
 
@@ -32,8 +33,16 @@ class Migrate extends CI_Model
     return $this->db1->query('DESCRIBE ' . $table)->result_array();
   }
 
+  public function read($dbs, $tb1)
+  {
+    $this->db1 = $this->load->database($dbs, true);
+    $this->db1->distinct('id');
+    return $this->db1->get($tb1)->result_array();
+  }
+
   public function import()
   {
+    $c = array();
     $post = $this->input->post();
 
     // database dari element select
@@ -44,8 +53,9 @@ class Migrate extends CI_Model
     $tb1 = $post['tables1'];
     $tb2 = $post['tables2'];
 
+    // variabel untuk mengetahui jumlah atribut
+    $count = $post['count1'];
     // mengambil atribut tabel lama dari element select yang sudah dipilih
-    $count = $this->input->post('count1');
     for ($x = 1; $x <= $count; $x++) {
       $field1[] = $this->input->post('attr' . $x, true);
     }
@@ -58,23 +68,52 @@ class Migrate extends CI_Model
     // mengambil data(value) atribut dari database lama
     $dataAttr = $this->Migrate->loadDB1($db1, $tb1, $field1);
 
-    // menyocokan atribut database lama dengan atribut yang telah dipilih melalui element select
-    foreach ($field1 as $f1) {
-      foreach ($dataAttr as $key) {
-        $newData1[] = $key[$f1];
-      }
-      $data1[] =  $newData1;
-      $newData1 = array();
-    }
-
-    // jumlah data yang akan diimport
-    $row = count($data1[0]);
-    // memasukkan atribut lama kedalam atribut baru dalam bentuk array dua dimensi
-    // array tampung
-    $c = array();
-    for ($i = 0; $i < $row; $i++) {
-      for ($j = 0; $j < $count; $j++) {
-        $c[$field2[$j]] = $data1[$j][$i];
+    // memindahkan data dari atribut lama kedalam array untuk atribut baru
+    foreach ($dataAttr as $value) {
+      for ($i = 0; $i < count($field2); $i++) {
+        if ($field1[$i] == 'no_medrec') {
+          $c[$field2[$i]] = str_pad($value[$field1[$i]], 6, '0', STR_PAD_LEFT);
+        } elseif ($field1[$i] == 'pekerjaan_id') {
+          if ($value[$field1[$i]] == 1) {
+            $c[$field2[$i]] = 'BLM BEKERJA';
+          } elseif ($value[$field1[$i]] == 2) {
+            $c[$field2[$i]] = 'PEGAWAI NEGERI';
+          } elseif ($value[$field1[$i]] == 3) {
+            $c[$field2[$i]] = 'KARYAWAN SWASTA';
+          } elseif ($value[$field1[$i]] == 4) {
+            $c[$field2[$i]] = 'TNI';
+          } elseif ($value[$field1[$i]] == 5) {
+            $c[$field2[$i]] = 'TKS';
+          } elseif ($value[$field1[$i]] == 6) {
+            $c[$field2[$i]] = 'WIRASWASTA';
+          } elseif ($value[$field1[$i]] == 7) {
+            $c[$field2[$i]] = 'PURNAWIRAWAN';
+          } elseif ($value[$field1[$i]] == 8) {
+            $c[$field2[$i]] = 'PENSIUNAN';
+          } elseif ($value[$field1[$i]] == 9) {
+            $c[$field2[$i]] = 'PELAJAR';
+          } elseif ($value[$field1[$i]] == 10) {
+            $c[$field2[$i]] = 'MAHASISWA';
+          } elseif ($value[$field1[$i]] == 11) {
+            $c[$field2[$i]] = 'IBU RMH TANGGA';
+          } elseif ($value[$field1[$i]] == 16) {
+            $c[$field2[$i]] = 'LAIN-LAIN';
+          } elseif ($value[$field1[$i]] == 17) {
+            $c[$field2[$i]] = 'POLRI';
+          } elseif ($value[$field1[$i]] == 19) {
+            $c[$field2[$i]] = 'NELAYAN';
+          } elseif ($value[$field1[$i]] == 20) {
+            $c[$field2[$i]] = 'DOKTER';
+          } elseif ($value[$field1[$i]] == 22) {
+            $c[$field2[$i]] = 'GURU';
+          } elseif ($value[$field1[$i]] == 23) {
+            $c[$field2[$i]] = 'PETANI';
+          } else {
+            $c[$field2[$i]] = '-';
+          }
+        } else {
+          $c[$field2[$i]] = $value[$field1[$i]];
+        }
       }
       $hasilAttr[] = $c;
       $c = array();
@@ -82,6 +121,10 @@ class Migrate extends CI_Model
 
     $this->db = $this->load->database($db2, true);
     return $this->db->insert_batch($tb2, $hasilAttr);
+
+    // echo '<br>';
+    // echo '<br>';
+    // print_r($field1[4]);
   }
 }
   
