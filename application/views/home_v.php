@@ -15,7 +15,7 @@
   </div>
 
   <div id="form">
-    <form id="thisForm" action="Home/importDB" method="POST">
+    <form id="thisForm" action="<?= base_url(); ?>Home/importDB" method="POST">
       <div class="container">
         <div class="item-container">
           <h2>Database lama</h2>

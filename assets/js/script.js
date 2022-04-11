@@ -72,11 +72,11 @@ function pilihAttr() {
 
 			for (let i = 0; i < hasil["attr2"].length; i++) {
 				attr2 +=
-					"<input type='text' name='attrBaru" +
+					"<input type='text' name='attr" +
 					idBaru +
-					"' id='attrBaru" +
+					"Baru' id='attr" +
 					idBaru +
-					"' value='" +
+					"Baru' value='" +
 					hasil["attr2"][i]["Field"] +
 					"' readonly>" +
 					"<br>";
@@ -95,6 +95,13 @@ function pilihAttr() {
 				}
 
 				attr1 +=
+					"<input type='checkbox' class='excep' name='excep" +
+					id +
+					"' id='excep" +
+					id +
+					"' value='attr" +
+					id +
+					"'>" +
 					"<select style='padding: 1px;' name='attr" +
 					id +
 					"' id='attr" +
@@ -149,6 +156,17 @@ function importDB() {
 	var db2 = $("#databases2").val();
 	var tbs1 = $("#tables1").val();
 	var tbs2 = $("#tables2").val();
+
+	var checkbox = document.getElementsByClassName("excep");
+	var excep = [];
+	var excep2 = [];
+	for (var i = 0; i < checkbox.length; i++) {
+		if (checkbox[i].checked) {
+			excep.push($("#" + checkbox[i].value).val());
+			excep2.push($("#" + checkbox[i].value + "Baru").val());
+		}
+	}
+
 	if (db1 == 0 && db2 == 0) {
 		alert("Data harus diisi");
 	} else if (tbs1 == 0 && tbs2 == 0) {
@@ -156,7 +174,13 @@ function importDB() {
 	} else {
 		var hitung = $("div#tb2 input").length;
 		$("#count").html(
-			"<input type='text' name='count1' id='count1' value='" + hitung + "'>"
+			"<input type='text' name='count1' id='count1' value='" +
+				hitung +
+				"'> <input type='text' name='countExcep' id='countExcep' value='" +
+				excep +
+				"'> <input type='text' name='countExcep2' id='countExcep2' value='" +
+				excep2 +
+				"'>"
 		);
 
 		$("#thisForm").submit();
@@ -164,7 +188,6 @@ function importDB() {
 }
 
 function showData() {
-	// console.log("bisa");
 	var db1 = $("#databases1").val();
 	var tbs1 = $("#tables1").val();
 	$.ajax({

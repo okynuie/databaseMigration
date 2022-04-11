@@ -17,13 +17,35 @@ class Migrate extends CI_Model
     return $databases;
   }
 
-  public function loadDB1($db1, $tb1, $field1)
+  public function loadDB1($db1, $db2, $tb1, $tb2, $field1, $excep, $excep2)
   {
+    $atribut = '';
+    foreach ($field1 as $key) {
+      if ($key != '0') {
+        $atribut .= $tb1 . '.' . $key . ', ';
+      } else {
+        $atribut .= $key . ', ';
+      }
+    }
+
+    $ex = '';
+    for ($i = 0; $i < count($excep); $i++) {
+      if ($ex !== '') {
+        $ex .= ' AND ';
+      } else {
+        $ex .= $tb1 . '.' . $excep[$i] . ' = ' . $tb2 . '.' . $excep2[$i];
+      }
+    }
+
     // load database secara manual
     $this->db1 = $this->load->database($db1, true);
+
     // mengambil data(value) atribut dari database lama
-    $this->db1->select($field1);
-    $this->db1->distinct($field1[0]);
+    $this->db1->distinct();
+    $this->db1->select($atribut);
+    $this->db1->join($db2 . '.' . $tb2, $ex, 'left');
+    $this->db1->where($tb2 . '.' . $excep2[0] . ' IS NULL');
+
     return $this->db1->get($tb1)->result_array();
   }
 
@@ -42,7 +64,6 @@ class Migrate extends CI_Model
 
   public function import()
   {
-    $c = array();
     $post = $this->input->post();
 
     // database dari element select
@@ -55,6 +76,11 @@ class Migrate extends CI_Model
 
     // variabel untuk mengetahui jumlah atribut
     $count = $post['count1'];
+
+    // mengetahui atribut yang dijadikan patokan redudancy data
+    $excep = explode(',', $post['countExcep']);
+    $excep2 = explode(',', $post['countExcep2']);
+
     // mengambil atribut tabel lama dari element select yang sudah dipilih
     for ($x = 1; $x <= $count; $x++) {
       $field1[] = $this->input->post('attr' . $x, true);
@@ -62,11 +88,11 @@ class Migrate extends CI_Model
 
     // mengambil atribut tabel baru
     for ($y = 1; $y <= $count; $y++) {
-      $field2[] = $this->input->post('attrBaru' . $y, true);
+      $field2[] = $this->input->post('attr' . $y . 'Baru', true);
     }
 
     // mengambil data(value) atribut dari database lama
-    $dataAttr = $this->Migrate->loadDB1($db1, $tb1, $field1);
+    $dataAttr = $this->Migrate->loadDB1($db1, $db2, $tb1, $tb2, $field1, $excep, $excep2);
 
     // memindahkan data dari atribut lama kedalam array untuk atribut baru
     foreach ($dataAttr as $value) {
@@ -116,15 +142,10 @@ class Migrate extends CI_Model
         }
       }
       $hasilAttr[] = $c;
-      $c = array();
     }
 
     $this->db = $this->load->database($db2, true);
     return $this->db->insert_batch($tb2, $hasilAttr);
-
-    // echo '<br>';
-    // echo '<br>';
-    // print_r($field1[4]);
   }
 }
   
