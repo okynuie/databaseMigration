@@ -109,6 +109,8 @@ class Home extends CI_Controller
     // kembali ke home
     redirect('home');
   }
+
+  
 }
   
   /* End of file Home.php */
