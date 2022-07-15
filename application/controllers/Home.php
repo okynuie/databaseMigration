@@ -12,19 +12,26 @@ class Home extends CI_Controller
   }
 
 
+  // public function index()
+  // {
+  //   // koneksi manual untuk mengambil list database
+  //   $db = new PDO('mysql:host=localhost;dbname=mysql', 'root', '');
+  //   $dbs = $db->query('SHOW DATABASES');
+
+  //   while (($db = $dbs->fetchColumn(0)) !== false) {
+  //     $databases[] = $db;
+  //   };
+
+  //   $data['dbs'] = $databases;
+
+  //   $this->load->view('home_v', $data);
+  // }
+
   public function index()
   {
-    // koneksi manual untuk mengambil list database
-    $db = new PDO('mysql:host=localhost;dbname=mysql', 'root', '');
-    $dbs = $db->query('SHOW DATABASES');
-
-    while (($db = $dbs->fetchColumn(0)) !== false) {
-      $databases[] = $db;
-    };
-
-    $data['dbs'] = $databases;
-
-    $this->load->view('home_v', $data);
+    $data['tab_title'] = "Database Migration";
+    $data['title'] = "Configure Database Connection";
+    $this->load->view('configdb_v', $data);
   }
 
   public function getTables()

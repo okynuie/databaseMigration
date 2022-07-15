@@ -70,32 +70,58 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$database = new PDO('mysql:host=localhost;dbname=mysql', 'root', '');
-$dbs = $database->query('SHOW DATABASES');
-$active_group = 'coba1';
+
+// $database = new PDO('mysql:host=localhost;dbname=mysql', 'root', '');
+// $dbs = $database->query('SHOW DATABASES');
+// $active_group = 'coba1';
+// $query_builder = TRUE;
+
+
+// while (($database = $dbs->fetchColumn(0)) !== false) {
+// 	$db[$database] = array(
+// 		'dsn'	=> '',
+// 		'hostname' => 'localhost',
+// 		'username' => 'root',
+// 		'password' => '',
+// 		'database' => $database,
+// 		'dbdriver' => 'mysqli',
+// 		'dbprefix' => '',
+// 		'pconnect' => FALSE,
+// 		'db_debug' => (ENVIRONMENT !== 'production'),
+// 		'cache_on' => FALSE,
+// 		'cachedir' => '',
+// 		'char_set' => 'utf8',
+// 		'dbcollat' => 'utf8_general_ci',
+// 		'swap_pre' => '',
+// 		'encrypt' => FALSE,
+// 		'compress' => FALSE,
+// 		'stricton' => FALSE,
+// 		'failover' => array(),
+// 		'save_queries' => TRUE
+// 	);
+// };
+
+$active_group = 'default';
 $query_builder = TRUE;
 
-
-while (($database = $dbs->fetchColumn(0)) !== false) {
-	$db[$database] = array(
-		'dsn'	=> '',
-		'hostname' => 'localhost',
-		'username' => 'root',
-		'password' => '',
-		'database' => $database,
-		'dbdriver' => 'mysqli',
-		'dbprefix' => '',
-		'pconnect' => FALSE,
-		'db_debug' => (ENVIRONMENT !== 'production'),
-		'cache_on' => FALSE,
-		'cachedir' => '',
-		'char_set' => 'utf8',
-		'dbcollat' => 'utf8_general_ci',
-		'swap_pre' => '',
-		'encrypt' => FALSE,
-		'compress' => FALSE,
-		'stricton' => FALSE,
-		'failover' => array(),
-		'save_queries' => TRUE
-	);
-};
+$db['default'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost',
+	'username' => 'admin',
+	'password' => 'bismillah',
+	'database' => 'migratedb',
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
